@@ -1,0 +1,29 @@
+<form [formGroup]="signupForm" (ngSubmit)="onSubmit()" class="animate-fade-in">
+  <app-input 
+    formControlName="name" 
+    label="Nome Completo" 
+    type="text" 
+    placeholder="Seu nome">
+  </app-input>
+
+  <app-input 
+    formControlName="email" 
+    label="E-mail" 
+    type="email" 
+    placeholder="voce@exemplo.com">
+  </app-input>
+
+  <app-input 
+    formControlName="password" 
+    label="Senha" 
+    type="password" 
+    placeholder="••••••••">
+  </app-input>
+
+  <button 
+    type="submit" 
+    [disabled]="signupForm.invalid || isLoading"
+    class="w-full py-3.5 mt-2 rounded-full bg-gradient-to-r from-brand-pink to-brand-purple font-bold text-white hover:opacity-90 transition-opacity disabled:opacity-50 disabled:cursor-not-allowed">
+    {{ isLoading ? 'Cadastrando...' : 'Cadastrar' }}
+  </button>
+</form>

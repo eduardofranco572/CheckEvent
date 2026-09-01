@@ -1,0 +1,22 @@
+<form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="animate-fade-in">
+  <app-input 
+    formControlName="email" 
+    label="E-mail" 
+    type="email" 
+    placeholder="voce@exemplo.com">
+  </app-input>
+
+  <app-input 
+    formControlName="password" 
+    label="Senha" 
+    type="password" 
+    placeholder="••••••••">
+  </app-input>
+
+  <button 
+    type="submit" 
+    [disabled]="loginForm.invalid || isLoading"
+    class="w-full py-3.5 mt-2 rounded-full bg-gradient-to-r from-brand-pink to-brand-purple font-bold text-white hover:opacity-90 transition-opacity cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed">
+    {{ isLoading ? 'Entrando...' : 'Entrar' }}
+  </button>
+</form>

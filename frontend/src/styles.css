@@ -1,0 +1,79 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --color-brand-bg: #0E061B;
+  --color-brand-surface: #1C122C;
+  --color-brand-pink: #FF41F8;
+  --color-brand-purple: #7702FF;
+  --color-brand-border: #35274B;
+}
+
+:root {
+  --color-background: var(--color-brand-bg);
+  --gradient-violet: linear-gradient(135deg, var(--color-brand-pink), var(--color-brand-purple));
+}
+
+body {
+  background-color: var(--color-background);
+  color: #ffffff;
+  font-family: 'Roboto', sans-serif;
+}
+
+
+.swal2-timer-progress-bar {
+  background: linear-gradient(135deg, var(--color-brand-pink), var(--color-brand-purple)) !important;
+}
+
+.swal2-popup.swal2-toast {
+  border: 1px solid var(--color-brand-border) !important;
+}
+
+/* Scroll */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-brand-purple) transparent;
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-brand-purple);
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-brand-pink);
+}
+
+/* Responsive */
+@media screen and (max-width: 320px) {
+  html {
+    font-size: 14px; 
+  }
+}
+
+@media screen and (min-width: 1600px) {
+  html {
+    font-size: 18px; 
+  }
+}
+
+@media screen and (min-width: 2000px) {
+  html {
+    font-size: 36px;
+  }
+}
+
+@media screen and (min-width: 3000px) {
+  html {
+    font-size: 52px;
+  }
+}

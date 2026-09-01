@@ -1,0 +1,43 @@
+<div class="flex min-h-screen bg-brand-bg text-white">
+  <div 
+    class="hidden lg:block w-1/2 bg-cover bg-center" 
+    style="background-image: url('auth-banner.jpg');"
+  ></div>
+  
+  <div class="w-full lg:w-1/2 flex flex-col justify-center items-center p-8 sm:p-12 lg:p-24 relative">
+    <div class="w-full max-w-md animate-fade-in">
+      <h1 class="text-3xl font-bold mb-2">{{ title }}</h1>
+      <p class="text-gray-400 mb-8 text-sm">{{ subtitle }}</p>
+
+      <div class="flex bg-brand-surface rounded-full p-1 mb-8">
+        <a 
+          routerLink="/auth/login" 
+          routerLinkActive="bg-gradient-to-r from-brand-pink to-brand-purple text-white shadow-lg" 
+          class="flex-1 text-center py-2.5 rounded-full text-gray-400 hover:text-white font-medium text-sm transition-all cursor-pointer"
+        >Entrar</a>
+        
+        <a 
+          routerLink="/auth/signup" 
+          routerLinkActive="bg-gradient-to-r from-brand-pink to-brand-purple text-white shadow-lg" 
+          class="flex-1 text-center py-2.5 rounded-full text-gray-400 hover:text-white font-medium text-sm transition-all cursor-pointer"
+        >Cadastrar</a>
+      </div>
+
+      <router-outlet></router-outlet>
+
+      <div class="flex items-center my-8">
+        <div class="flex-1 border-t border-brand-border"></div>
+        <span class="px-4 text-[0.6rem] text-gray-500 uppercase tracking-widest font-bold">Ou</span>
+        <div class="flex-1 border-t border-brand-border"></div>
+      </div>
+
+      <button 
+        type="button" 
+        class="w-full py-3 rounded-full border border-brand-border font-medium text-white hover:bg-brand-surface transition-colors flex items-center justify-center gap-2 text-sm"
+      >
+        Continuar com Google
+      </button>
+      
+    </div>
+  </div>
+</div>
