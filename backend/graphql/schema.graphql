@@ -1,16 +1,73 @@
-type Query {
-    me: User @auth(guard: "sanctum")
-}
-
-type Mutation {
-    signup(name: String!, email: String!, password: String!): String! @field(resolver: "App\\GraphQL\\Mutations\\Auth\\SignupMutation")
-    login(email: String!, password: String!): String! @field(resolver: "App\\GraphQL\\Mutations\\Auth\\LoginMutation")
-}
+scalar Upload
+    @scalar(class: "Nuwave\\Lighthouse\\Schema\\Types\\Scalars\\Upload")
 
 type User {
     id: ID!
     name: String!
     email: String!
+    is_pro: Boolean!
+    is_adm: Boolean!
+    usage_limit: Int!
+    events: [Event!]! @hasMany
     created_at: String!
     updated_at: String!
+}
+
+type Event {
+    id: ID!
+    name: String!
+    date: String!
+    time: String!
+    capacity: Int!
+    location: String!
+    price: String
+    description: String
+    banner: String
+    user: User! @belongsTo
+    created_at: String!
+    updated_at: String!
+}
+
+type Query {
+    me: User @guard(with: ["sanctum"]) @auth(guard: "sanctum")
+    event(id: ID! @eq): Event @find
+}
+
+type Mutation {
+    signup(name: String!, email: String!, password: String!): String!
+        @field(resolver: "App\\GraphQL\\Mutations\\Auth\\SignupMutation")
+
+    login(email: String!, password: String!): String!
+        @field(resolver: "App\\GraphQL\\Mutations\\Auth\\LoginMutation")
+
+    createEvent(
+        name: String!
+        date: String!
+        time: String!
+        capacity: Int!
+        location: String!
+        price: String
+        description: String
+        banner: Upload
+    ): Event!
+        @field(resolver: "App\\GraphQL\\Mutations\\Event\\CreateEventMutation")
+        @guard(with: ["sanctum"])
+
+    updateEvent(
+        id: ID!
+        name: String
+        date: String
+        time: String
+        capacity: Int
+        location: String
+        price: String
+        description: String
+        banner: Upload
+    ): Event!
+        @field(resolver: "App\\GraphQL\\Mutations\\Event\\UpdateEventMutation")
+        @guard(with: ["sanctum"])
+
+    deleteEvent(id: ID!): Boolean!
+        @field(resolver: "App\\GraphQL\\Mutations\\Event\\DeleteEventMutation")
+        @guard(with: ["sanctum"])
 }

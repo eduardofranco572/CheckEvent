@@ -2,6 +2,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
@@ -9,10 +10,27 @@ use Laravel\Sanctum\HasApiTokens;
 class User extends Authenticatable {
   use HasApiTokens, HasFactory, Notifiable;
 
-  protected $fillable = ['name', 'email', 'password'];
+  protected $fillable = [
+    'name', 
+    'email', 
+    'password', 
+    'is_pro', 
+    'is_adm', 
+    'usage_limit'
+  ];
+
   protected $hidden = ['password', 'remember_token'];
 
   protected function casts(): array {
-    return ['email_verified_at' => 'datetime', 'password' => 'hashed'];
-  } 
+    return [
+      'email_verified_at' => 'datetime', 
+      'password' => 'hashed',
+      'is_pro' => 'boolean',
+      'is_adm' => 'boolean',
+    ];
+  }
+
+  public function events(): HasMany {
+    return $this->hasMany(Event::class);
+  }
 }

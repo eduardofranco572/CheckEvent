@@ -1,27 +1,26 @@
 import { Component, forwardRef, Input } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR, FormsModule } from '@angular/forms';
 import { LucideAngularModule, Eye, EyeOff } from 'lucide-angular';
+import { NgClass } from '@angular/common';
 
 @Component({
   selector: 'app-input',
   standalone: true,
-  imports: [
-    FormsModule, 
-    LucideAngularModule 
-  ], 
+  imports: [FormsModule, LucideAngularModule, NgClass],
   templateUrl: './input.component.html',
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
       useExisting: forwardRef(() => InputComponent),
-      multi: true
-    }
-  ]
+      multi: true,
+    },
+  ],
 })
 export class InputComponent implements ControlValueAccessor {
   @Input() label = '';
   @Input() type: 'text' | 'email' | 'password' = 'text';
   @Input() placeholder = '';
+  @Input() variant: 'default' | 'card' = 'default';
 
   value = '';
   disabled = false;

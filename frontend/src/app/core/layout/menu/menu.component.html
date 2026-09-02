@@ -1,0 +1,44 @@
+<nav class="flex items-center justify-between py-5 px-8 border-b border-brand-border bg-brand-bg">
+  <div class="flex items-center gap-3 cursor-pointer" routerLink="/">
+    <div
+      class="w-8 h-8 rounded-full bg-gradient-to-r from-brand-pink to-brand-purple flex items-center justify-center font-bold text-white shadow-lg"
+    >
+      C
+    </div>
+
+    <span class="font-bold text-xl tracking-tight text-white">CheckEvent</span>
+  </div>
+
+  <div class="hidden md:flex items-center gap-8 text-sm font-medium text-gray-400">
+    <a
+      routerLink="/"
+      [routerLinkActiveOptions]="{ exact: true }"
+      routerLinkActive="text-white"
+      class="hover:text-white transition-colors cursor-pointer"
+      >Eventos</a
+    >
+
+    <a
+      routerLink="/meus-eventos"
+      [routerLinkActiveOptions]="{ exact: true }"
+      routerLinkActive="text-white"
+      class="hover:text-white transition-colors cursor-pointer"
+      >Meus eventos</a
+    >
+
+    <a
+      routerLink="/criar-evento"
+      routerLinkActive="text-white"
+      class="hover:text-white transition-colors cursor-pointer"
+      >Criar evento</a
+    >
+  </div>
+
+  <div class="flex items-center gap-4">
+    <div
+      class="w-10 h-10 rounded-full bg-brand-surface border border-brand-border flex items-center justify-center text-sm font-bold text-white cursor-pointer hover:border-brand-pink transition-colors"
+    >
+      {{ initials() }}
+    </div>
+  </div>
+</nav>

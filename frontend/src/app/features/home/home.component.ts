@@ -1,12 +1,10 @@
-import { Component} from '@angular/core';
-import { ReactiveFormsModule,} from '@angular/forms';
+import { Component } from '@angular/core';
+import { MenuComponent } from '../../core/layout/menu/menu.component';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [ReactiveFormsModule],
-  templateUrl: './home.component.html'
+  imports: [MenuComponent],
+  templateUrl: './home.component.html',
 })
-export class HomeComponent {
-  
-}
+export class HomeComponent {}

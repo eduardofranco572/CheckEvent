@@ -6,23 +6,53 @@ export const routes: Routes = [
   {
     path: 'auth',
     canActivate: [guestGuard],
-    loadComponent: () => {
-      return import('./features/auth/auth-layout/auth-layout.component').then(m => m.AuthLayoutComponent);
-    },
+    loadComponent: () =>
+      import('./features/auth/auth-layout/auth-layout.component').then(
+        (m) => m.AuthLayoutComponent,
+      ),
     children: [
-      { path: 'login', loadComponent: () => import('./features/auth/login/login.component').then(m => m.LoginComponent) },
-      { path: 'signup', loadComponent: () => import('./features/auth/signup/signup.component').then(m => m.SignupComponent) },
-      { path: '', redirectTo: 'login', pathMatch: 'full' }
-    ]
+      {
+        path: 'login',
+        loadComponent: () =>
+          import('./features/auth/login/login.component').then((m) => m.LoginComponent),
+      },
+      {
+        path: 'signup',
+        loadComponent: () =>
+          import('./features/auth/signup/signup.component').then((m) => m.SignupComponent),
+      },
+      { path: '', redirectTo: 'login', pathMatch: 'full' },
+    ],
   },
-
   {
     path: '',
     canActivate: [authGuard],
-    loadComponent: () => {
-      return import('./features/home/home.component').then(m => m.HomeComponent);
-    }
+    children: [
+      {
+        path: '',
+        loadComponent: () => import('./features/home/home.component').then((m) => m.HomeComponent),
+      },
+      {
+        path: 'criar-evento',
+        loadComponent: () =>
+          import('./features/events/create-event/create-event.component').then(
+            (m) => m.CreateEventComponent,
+          ),
+      },
+      {
+        path: 'editar-evento/:id',
+        loadComponent: () =>
+          import('./features/events/create-event/create-event.component').then(
+            (m) => m.CreateEventComponent,
+          ),
+      },
+    ],
+  },
+  {
+    path: '404',
+    loadComponent: () =>
+      import('./features/not-found/not-found.component').then((m) => m.NotFoundComponent),
   },
 
-  { path: '**', redirectTo: '' }
+  { path: '**', redirectTo: '404' },
 ];

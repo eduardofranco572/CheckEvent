@@ -1,0 +1,162 @@
+<app-menu></app-menu>
+
+<div class="max-w-6xl mx-auto px-6 py-12 animate-fade-in">
+  <div class="mb-10">
+    <span class="text-brand-pink text-[0.65rem] font-bold tracking-widest uppercase">
+      {{ facade.isEditMode ? 'Editar Evento' : 'Novo Evento' }}
+    </span>
+    <h1 class="text-4xl font-bold mt-2 text-white">
+      {{ facade.isEditMode ? 'Atualize as informações' : 'Publique sua próxima noite' }}
+    </h1>
+  </div>
+
+  <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+    <div
+      class="lg:col-span-2 bg-brand-surface border border-brand-border rounded-3xl p-8 shadow-xl"
+    >
+      <div
+        class="relative border-2 border-dashed rounded-2xl h-48 flex items-center justify-center mb-8 overflow-hidden cursor-pointer transition-all duration-300"
+        [class.border-brand-purple]="isDragging"
+        [class.bg-brand-purple]="isDragging"
+        [class.bg-opacity-10]="isDragging"
+        [class.border-brand-border]="!isDragging"
+        [class.bg-brand-bg]="!isDragging"
+        (dragover)="onDragOver($event)"
+        (dragleave)="onDragLeave($event)"
+        (drop)="onDrop($event)"
+        (click)="triggerFileInput()"
+      >
+        <input
+          type="file"
+          #fileInput
+          class="hidden"
+          accept="image/*"
+          (change)="onFileSelected($event)"
+        />
+
+        @if (facade.bannerPreview) {
+          <img
+            [src]="facade.bannerPreview"
+            alt="Banner Preview"
+            class="w-full h-full object-cover"
+          />
+          <div
+            class="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity"
+          >
+            <span class="text-white text-sm font-bold">Alterar imagem</span>
+          </div>
+        } @else {
+          <span class="text-gray-400 text-sm font-medium pointer-events-none">
+            Arraste um banner chamativo (1280×720) ou clique para enviar
+          </span>
+        }
+      </div>
+
+      <form [formGroup]="facade.form" (ngSubmit)="facade.submit()">
+        <app-input
+          formControlName="name"
+          variant="card"
+          label="Nome do Evento"
+          placeholder="Festival Aurora — Noite 1"
+        ></app-input>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-5">
+          <div class="flex flex-col">
+            <label
+              class="block text-[0.6rem] font-bold tracking-widest text-gray-400 mb-2 uppercase"
+              >Data</label
+            >
+            <input
+              type="text"
+              mwlFlatpickr
+              [altInput]="true"
+              altFormat="d/m/Y"
+              dateFormat="Y-m-d"
+              formControlName="date"
+              placeholder="Selecione a data"
+              class="w-full bg-brand-bg border border-transparent focus:border-brand-pink rounded-xl px-4 py-3.5 outline-none text-white transition-all text-sm"
+            />
+          </div>
+
+          <div class="flex flex-col">
+            <label
+              class="block text-[0.6rem] font-bold tracking-widest text-gray-400 mb-2 uppercase"
+              >Horário</label
+            >
+            <input
+              type="text"
+              mwlFlatpickr
+              [noCalendar]="true"
+              [enableTime]="true"
+              dateFormat="H:i"
+              [time24hr]="true"
+              formControlName="time"
+              placeholder="--:--"
+              class="w-full bg-brand-bg border border-transparent focus:border-brand-pink rounded-xl px-4 py-3.5 outline-none text-white transition-all text-sm"
+            />
+          </div>
+
+          <div class="flex flex-col">
+            <label
+              class="block text-[0.6rem] font-bold tracking-widest text-gray-400 mb-2 uppercase"
+              >Vagas</label
+            >
+            <input
+              formControlName="capacity"
+              type="number"
+              placeholder="300"
+              class="w-full bg-brand-bg border border-transparent focus:border-brand-pink rounded-xl px-4 py-3.5 outline-none text-white transition-all text-sm"
+            />
+          </div>
+        </div>
+
+        <app-input
+          formControlName="location"
+          variant="card"
+          label="Local"
+          placeholder="Av. Beira-Mar, 1200 — Praia Grande"
+        ></app-input>
+
+        <app-input
+          formControlName="price"
+          variant="card"
+          label="Valor por Inscrição"
+          placeholder="R$ 80 ou Gratuito"
+        ></app-input>
+
+        <div class="flex flex-col mb-8">
+          <label class="block text-[0.6rem] font-bold tracking-widest text-gray-400 mb-2 uppercase"
+            >Descrição</label
+          >
+          <textarea
+            formControlName="description"
+            placeholder="Conte como vai ser a experiência..."
+            class="w-full bg-brand-bg border border-transparent focus:border-brand-pink rounded-xl px-4 py-3.5 outline-none text-white transition-all text-sm resize-none field-sizing-content min-h-[120px]"
+          ></textarea>
+        </div>
+
+        <div class="flex gap-4">
+          <button
+            type="submit"
+            [disabled]="facade.form.invalid"
+            class="flex-1 py-4 rounded-full bg-gradient-to-r from-brand-pink to-brand-purple font-bold text-white hover:shadow-[0_0_20px_rgba(255,65,248,0.3)] transition-all cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            {{ facade.isEditMode ? 'Salvar alterações' : 'Publicar evento' }}
+          </button>
+
+          @if (facade.isEditMode) {
+            <button
+              type="button"
+              (click)="facade.deleteEvent()"
+              class="px-8 py-4 rounded-full border border-red-500 text-red-500 font-bold hover:bg-red-500/10 transition-colors cursor-pointer"
+            >
+              Excluir
+            </button>
+          }
+        </div>
+      </form>
+    </div>
+
+    <app-pricing-cards></app-pricing-cards>
+  </div>
+</div>

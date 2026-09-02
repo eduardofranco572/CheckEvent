@@ -4,7 +4,6 @@
       {{ label }}
     </label>
   }
-
   <div class="relative group">
     <input
       [type]="inputType"
@@ -13,7 +12,11 @@
       [disabled]="disabled"
       (input)="onInput($event)"
       (blur)="onTouched()"
-      class="w-full bg-brand-surface border border-transparent focus:border-brand-pink rounded-xl px-4 py-3.5 outline-none text-white transition-all text-sm disabled:opacity-50"
+      [ngClass]="{
+        'bg-brand-surface': variant === 'default',
+        'bg-brand-bg': variant === 'card',
+      }"
+      class="w-full border border-transparent focus:border-brand-pink rounded-xl px-4 py-3.5 outline-none text-white transition-all text-sm disabled:opacity-50"
     />
 
     @if (type === 'password') {

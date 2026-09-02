@@ -1,13 +1,18 @@
-import { inject } from '@angular/core';
+import { inject, PLATFORM_ID } from '@angular/core';
 import { CanActivateFn, Router } from '@angular/router';
+import { isPlatformBrowser } from '@angular/common';
 
 export const guestGuard: CanActivateFn = () => {
   const router = inject(Router);
-  const token = typeof window !== 'undefined' ? localStorage.getItem('auth_token') : null;
-  if (token) {
-    router.navigate(['/']);
-    return false;
+  const platformId = inject(PLATFORM_ID);
+
+  if (isPlatformBrowser(platformId)) {
+    const token = localStorage.getItem('auth_token');
+
+    if (token) {
+      router.navigate(['/']);
+      return false;
+    }
   }
-  
   return true;
 };
