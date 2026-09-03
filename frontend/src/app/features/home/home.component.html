@@ -1,10 +1,19 @@
 <app-menu></app-menu>
 
-<div class="max-w-6xl mx-auto px-6 py-12 animate-fade-in">
+<div class="max-w-6xl mx-auto px-6 pt-28 pb-12 animate-fade-in relative z-10">
   <div class="mb-10">
-    <span class="text-brand-pink text-[0.65rem] font-bold tracking-widest uppercase"
-      >Sexta, 12 de Junho</span
-    >
-    <h1 class="text-4xl font-bold mt-2 text-white">Eventos perto de você</h1>
+    <span class="text-brand-pink text-[0.65rem] font-bold tracking-widest uppercase block mb-1">
+      {{ currentDate }}
+    </span>
+
+    <h1 class="text-4xl font-bold text-white">Eventos perto de você</h1>
+  </div>
+
+  @if (featuredEvent) {
+    <app-featured-event [event]="featuredEvent"></app-featured-event>
+  }
+
+  <div class="mt-16">
+    <h3 class="text-2xl font-bold text-white mb-6">Próximas celebrações</h3>
   </div>
 </div>

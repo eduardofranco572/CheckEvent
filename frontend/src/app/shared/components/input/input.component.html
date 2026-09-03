@@ -6,11 +6,12 @@
   }
   <div class="relative group">
     <input
+      #inputEl
       [type]="inputType"
       [placeholder]="placeholder"
-      [value]="value"
+      [(ngModel)]="value"
+      (ngModelChange)="onModelChange($event)"
       [disabled]="disabled"
-      (input)="onInput($event)"
       (blur)="onTouched()"
       [ngClass]="{
         'bg-brand-surface': variant === 'default',

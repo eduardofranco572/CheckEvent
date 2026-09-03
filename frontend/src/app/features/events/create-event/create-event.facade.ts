@@ -19,6 +19,7 @@ export class CreateEventFacade {
   isEditMode = false;
   eventId: string | null = null;
   bannerPreview: string | ArrayBuffer | null = null;
+  coverPreview: string | ArrayBuffer | null = null;
 
   form = this.fb.group({
     name: ['', Validators.required],
@@ -29,7 +30,31 @@ export class CreateEventFacade {
     price: [''],
     description: [''],
     bannerFile: [null as File | null],
+    coverFile: [null as File | null],
   });
+
+  constructor() {
+    this.form.get('price')?.valueChanges.subscribe((val) => {
+      if (val === null || val === undefined) return;
+
+      const stringVal = val.toString();
+      const apenasNumeros = stringVal.replace(/\D/g, '');
+
+      if (!apenasNumeros) {
+        if (stringVal !== '') {
+          this.form.get('price')?.setValue('', { emitEvent: false });
+        }
+        return;
+      }
+
+      const valorFormatado = (parseInt(apenasNumeros, 10) / 100).toFixed(2);
+      const moeda = 'R$ ' + valorFormatado.replace('.', ',').replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+
+      if (stringVal !== moeda) {
+        this.form.get('price')?.setValue(moeda, { emitEvent: false });
+      }
+    });
+  }
 
   loadEventData(id: string): Observable<EventModel | null> {
     this.eventId = id;
@@ -61,6 +86,10 @@ export class CreateEventFacade {
           if (event.banner) {
             this.bannerPreview = `${environment.storageUrl}/uploads/eventos/${event.id}/img/${event.banner}`;
           }
+
+          if (event.cover) {
+            this.coverPreview = `${environment.storageUrl}/uploads/eventos/${event.id}/img/${event.cover}`;
+          }
         });
       }),
     );
@@ -69,12 +98,21 @@ export class CreateEventFacade {
   submit() {
     if (this.form.invalid) return;
 
-    const formValues = this.form.value as any;
-    const bannerFile = formValues.bannerFile as File | null;
+    const formValues = { ...this.form.value } as any;
+
+    if (formValues.price) {
+      const apenasNumeros = formValues.price.replace(/\D/g, '');
+      formValues.price = (parseInt(apenasNumeros, 10) / 100).toFixed(2);
+    }
+
+    const files = {
+      banner: formValues.bannerFile as File | null,
+      cover: formValues.coverFile as File | null,
+    };
 
     const request$ = this.isEditMode
-      ? this.eventService.updateEvent(this.eventId!, formValues, bannerFile)
-      : this.eventService.createEvent(formValues, bannerFile);
+      ? this.eventService.updateEvent(this.eventId!, formValues, files)
+      : this.eventService.createEvent(formValues, files);
 
     request$.subscribe({
       next: (response: any) => {

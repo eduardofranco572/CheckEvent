@@ -16,6 +16,11 @@ import { authInterceptor } from './core/interceptors/auth-interceptor';
 import { LucideAngularModule, Eye, EyeOff } from 'lucide-angular';
 import { environment } from '../environments/environment';
 import { FlatpickrModule } from 'angularx-flatpickr';
+import { LOCALE_ID } from '@angular/core';
+import { registerLocaleData } from '@angular/common';
+import localePt from '@angular/common/locales/pt';
+
+registerLocaleData(localePt);
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -38,5 +43,9 @@ export const appConfig: ApplicationConfig = {
         cache: new InMemoryCache(),
       };
     }),
+    {
+      provide: LOCALE_ID,
+      useValue: 'pt-BR',
+    },
   ],
 };

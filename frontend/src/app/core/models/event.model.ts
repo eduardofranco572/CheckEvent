@@ -8,6 +8,7 @@ export interface EventModel {
   price?: string | null;
   description?: string | null;
   banner?: string | null;
+  cover?: string | null;
   user?: {
     id: string;
   };

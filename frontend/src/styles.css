@@ -4,21 +4,30 @@
 
 @theme {
   --color-brand-bg: #0e061b;
+  --color-primary: oklch(63% 0.24 305);
   --color-brand-surface: #1c122c;
   --color-brand-pink: #ff41f8;
   --color-brand-purple: #7702ff;
   --color-brand-border: #35274b;
+  --color-brand-card: oklch(20% 0.05 300);
 }
 
 :root {
   --color-background: var(--color-brand-bg);
-  --gradient-violet: linear-gradient(135deg, var(--color-brand-pink), var(--color-brand-purple));
+  --gradient-glow: radial-gradient(
+    60% 60% at 50% 0%,
+    oklab(63% 0.137658 -0.196596 / 0.4),
+    transparent 70%
+  );
 }
 
 body {
   background-color: var(--color-background);
   color: #ffffff;
   font-family: 'Roboto', sans-serif;
+  background-image: var(--gradient-glow);
+  background-repeat: no-repeat;
+  background-size: 100% 720px;
 }
 
 /* Alert */

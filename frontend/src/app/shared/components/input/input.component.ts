@@ -1,4 +1,12 @@
-import { Component, forwardRef, Input } from '@angular/core';
+import {
+  Component,
+  forwardRef,
+  Input,
+  inject,
+  ChangeDetectorRef,
+  ViewChild,
+  ElementRef,
+} from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR, FormsModule } from '@angular/forms';
 import { LucideAngularModule, Eye, EyeOff } from 'lucide-angular';
 import { NgClass } from '@angular/common';
@@ -17,6 +25,10 @@ import { NgClass } from '@angular/common';
   ],
 })
 export class InputComponent implements ControlValueAccessor {
+  private cdr = inject(ChangeDetectorRef);
+
+  @ViewChild('inputEl') inputEl!: ElementRef<HTMLInputElement>;
+
   @Input() label = '';
   @Input() type: 'text' | 'email' | 'password' = 'text';
   @Input() placeholder = '';
@@ -40,14 +52,19 @@ export class InputComponent implements ControlValueAccessor {
     this.showPassword = !this.showPassword;
   }
 
-  onInput(event: Event) {
-    const val = (event.target as HTMLInputElement).value;
+  onModelChange(val: string) {
     this.value = val;
     this.onChange(val);
   }
 
   writeValue(value: any): void {
     this.value = value || '';
+
+    if (this.inputEl) {
+      this.inputEl.nativeElement.value = this.value;
+    }
+
+    this.cdr.markForCheck();
   }
 
   registerOnChange(fn: any): void {

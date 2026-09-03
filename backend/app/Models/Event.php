@@ -5,6 +5,11 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Event extends Model {
+
+  protected $attributes = [
+    'status' => 'aberto',
+  ];
+
   protected $fillable = [
     'user_id', 
     'name', 
@@ -14,7 +19,9 @@ class Event extends Model {
     'location', 
     'price', 
     'description', 
-    'banner'
+    'banner', 
+    'cover', 
+    'status'
   ];
 
   public function user(): BelongsTo {

@@ -1,5 +1,23 @@
 import { gql } from 'apollo-angular';
 
+export const GET_EVENTS_QUERY = gql`
+  query GetEvents {
+    events {
+      id
+      name
+      date
+      time
+      capacity
+      location
+      price
+      description
+      banner
+      cover
+      status
+    }
+  }
+`;
+
 export const GET_EVENT_BY_ID_QUERY = gql`
   query GetEvent($id: ID!) {
     event(id: $id) {
@@ -12,6 +30,8 @@ export const GET_EVENT_BY_ID_QUERY = gql`
       price
       description
       banner
+      cover
+      status
       user {
         id
       }
@@ -24,23 +44,25 @@ export const CREATE_EVENT_MUTATION = `
     $name: String!, 
     $date: String!, 
     $time: String!, 
-    $capacity: Int!, 
+    $capacity: Int!,
     $location: String!, 
     $price: String, 
-    $description: String, 
-    $banner: Upload
+    $description: String,
+    $banner: Upload, 
+    $cover: Upload
   ) {
     createEvent(
-      name: $name, 
+      name: $name,
       date: $date, 
       time: $time, 
-      capacity: $capacity, 
+      capacity: $capacity,
       location: $location, 
       price: $price, 
-      description: $description, 
-      banner: $banner
+      description: $description,
+      banner: $banner, 
+      cover: $cover
     ) {
-      id name banner
+      id name banner cover status
     }
   }
 `;
@@ -51,24 +73,28 @@ export const UPDATE_EVENT_MUTATION = `
     $name: String, 
     $date: String, 
     $time: String, 
-    $capacity: Int, 
+    $capacity: Int,
     $location: String, 
     $price: String, 
-    $description: String, 
-    $banner: Upload
+    $description: String,
+    $banner: Upload, 
+    $cover: Upload, 
+    $status: String
   ) {
     updateEvent(
       id: $id, 
       name: $name, 
       date: $date, 
       time: $time, 
-      capacity: $capacity, 
+      capacity: $capacity,
       location: $location, 
-      price: $price, 
-      description: $description, 
-      banner: $banner
+      price: $price,
+      description: $description,
+      banner: $banner, 
+      cover: $cover, 
+      status: $status
     ) {
-      id name banner
+      id name banner cover status
     }
   }
 `;

@@ -1,6 +1,5 @@
 <?php
 namespace App\DTOs\Event;
-
 use Illuminate\Http\UploadedFile;
 
 readonly class CreateEventDTO {
@@ -13,6 +12,7 @@ readonly class CreateEventDTO {
     public string $location,
     public ?string $price = null,
     public ?string $description = null,
-    public ?UploadedFile $banner = null
+    public ?UploadedFile $banner = null,
+    public ?UploadedFile $cover = null
   ) {}
 }

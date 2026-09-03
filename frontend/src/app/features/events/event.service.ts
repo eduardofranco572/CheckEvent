@@ -8,6 +8,7 @@ import {
   CREATE_EVENT_MUTATION,
   UPDATE_EVENT_MUTATION,
   DELETE_EVENT_MUTATION,
+  GET_EVENTS_QUERY,
 } from './graphql/event.operations';
 
 import { environment } from '../../../environments/environment';
@@ -20,6 +21,15 @@ export class EventService {
   private apollo = inject(Apollo);
   private apiUrl = environment.apiUrl;
 
+  getLatestEvent(): Observable<EventModel | null> {
+    return this.apollo
+      .query<{ events: EventModel[] }>({
+        query: GET_EVENTS_QUERY,
+        fetchPolicy: 'network-only',
+      })
+      .pipe(map((res) => res.data?.events[0] || null));
+  }
+
   getEventById(id: string): Observable<EventModel | null> {
     return this.apollo
       .query<{ event: EventModel }>({
@@ -30,20 +40,33 @@ export class EventService {
       .pipe(map((res) => res.data?.event || null));
   }
 
-  createEvent(eventData: EventInput, bannerFile: File | null): Observable<EventModel> {
-    return this.sendMultipartRequest(CREATE_EVENT_MUTATION, { ...eventData }, bannerFile).pipe(
+  createEvent(
+    eventData: EventInput,
+    files: { banner?: File | null; cover?: File | null },
+  ): Observable<EventModel> {
+    return this.sendMultipartRequest(CREATE_EVENT_MUTATION, { ...eventData }, files).pipe(
       map((res: any) => res.data.createEvent),
     );
   }
 
-  updateEvent(id: string, eventData: EventInput, bannerFile: File | null): Observable<EventModel> {
-    return this.sendMultipartRequest(UPDATE_EVENT_MUTATION, { id, ...eventData }, bannerFile).pipe(
+  updateEvent(
+    id: string,
+    eventData: EventInput,
+    files: { banner?: File | null; cover?: File | null },
+  ): Observable<EventModel> {
+    return this.sendMultipartRequest(UPDATE_EVENT_MUTATION, { id, ...eventData }, files).pipe(
       map((res: any) => res.data.updateEvent),
     );
   }
 
-  // Abstrair o código repetitivo do FormData
-  private sendMultipartRequest(query: string, variables: any, file: File | null): Observable<any> {
+  private sendMultipartRequest(
+    query: string,
+    variables: any,
+    files: {
+      banner?: File | null;
+      cover?: File | null;
+    },
+  ): Observable<any> {
     if (variables.capacity) {
       variables.capacity =
         typeof variables.capacity === 'string'
@@ -51,15 +74,30 @@ export class EventService {
           : variables.capacity;
     }
 
-    variables.banner = null;
-
     const formData = new FormData();
-    formData.append('operations', JSON.stringify({ query, variables }));
-    formData.append('map', JSON.stringify({ '0': ['variables.banner'] }));
+    const mapObj: any = {};
+    let fileIndex = 0;
 
-    if (file) {
-      formData.append('0', file, file.name);
+    if (files.banner) {
+      variables.banner = null;
+
+      mapObj[fileIndex] = ['variables.banner'];
+      formData.append(fileIndex.toString(), files.banner, files.banner.name);
+
+      fileIndex++;
     }
+
+    if (files.cover) {
+      variables.cover = null;
+
+      mapObj[fileIndex] = ['variables.cover'];
+      formData.append(fileIndex.toString(), files.cover, files.cover.name);
+
+      fileIndex++;
+    }
+
+    formData.append('operations', JSON.stringify({ query, variables }));
+    formData.append('map', JSON.stringify(mapObj));
 
     return this.http.post(this.apiUrl, formData);
   }

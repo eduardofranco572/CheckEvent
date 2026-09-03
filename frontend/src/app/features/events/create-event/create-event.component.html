@@ -1,6 +1,6 @@
 <app-menu></app-menu>
 
-<div class="max-w-6xl mx-auto px-6 py-12 animate-fade-in">
+<div class="max-w-6xl mx-auto px-6 pt-28 pb-12 animate-fade-in">
   <div class="mb-10">
     <span class="text-brand-pink text-[0.65rem] font-bold tracking-widest uppercase">
       {{ facade.isEditMode ? 'Editar Evento' : 'Novo Evento' }}
@@ -14,42 +14,91 @@
     <div
       class="lg:col-span-2 bg-brand-surface border border-brand-border rounded-3xl p-8 shadow-xl"
     >
-      <div
-        class="relative border-2 border-dashed rounded-2xl h-48 flex items-center justify-center mb-8 overflow-hidden cursor-pointer transition-all duration-300"
-        [class.border-brand-purple]="isDragging"
-        [class.bg-brand-purple]="isDragging"
-        [class.bg-opacity-10]="isDragging"
-        [class.border-brand-border]="!isDragging"
-        [class.bg-brand-bg]="!isDragging"
-        (dragover)="onDragOver($event)"
-        (dragleave)="onDragLeave($event)"
-        (drop)="onDrop($event)"
-        (click)="triggerFileInput()"
-      >
-        <input
-          type="file"
-          #fileInput
-          class="hidden"
-          accept="image/*"
-          (change)="onFileSelected($event)"
-        />
-
-        @if (facade.bannerPreview) {
-          <img
-            [src]="facade.bannerPreview"
-            alt="Banner Preview"
-            class="w-full h-full object-cover"
+      <div class="flex flex-col items-center gap-6 mb-8 w-full">
+        <div
+          class="w-full relative border-2 border-dashed rounded-2xl h-48 md:h-64 flex items-center justify-center overflow-hidden cursor-pointer transition-all duration-300"
+          [class.border-brand-purple]="isDragging"
+          [class.bg-brand-purple]="isDragging"
+          [class.bg-opacity-10]="isDragging"
+          [class.border-brand-border]="!isDragging"
+          [class.bg-brand-bg]="!isDragging"
+          (dragover)="onDragOver($event)"
+          (dragleave)="onDragLeave($event)"
+          (drop)="onDrop($event)"
+          (click)="triggerFileInput(fileInput)"
+        >
+          <input
+            type="file"
+            #fileInput
+            class="hidden"
+            accept="image/*"
+            (change)="onFileSelected($event)"
           />
-          <div
-            class="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity"
-          >
-            <span class="text-white text-sm font-bold">Alterar imagem</span>
-          </div>
-        } @else {
-          <span class="text-gray-400 text-sm font-medium pointer-events-none">
-            Arraste um banner chamativo (1280×720) ou clique para enviar
-          </span>
-        }
+
+          @if (facade.bannerPreview) {
+            <img
+              [src]="facade.bannerPreview"
+              alt="Banner Preview"
+              class="w-full h-full object-cover"
+            />
+            <div
+              class="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity"
+            >
+              <span class="text-white text-sm font-bold">Alterar Banner</span>
+            </div>
+          } @else {
+            <div class="text-center">
+              <span class="block text-gray-400 text-sm font-medium pointer-events-none mb-1"
+                >Arraste o Banner (16:9)</span
+              >
+              <span class="block text-gray-600 text-xs pointer-events-none"
+                >Recomendado: 1280x720px</span
+              >
+            </div>
+          }
+        </div>
+
+        <div
+          class="w-48 h-60 relative border-2 border-dashed rounded-2xl flex flex-col items-center justify-center overflow-hidden cursor-pointer transition-all duration-300 shrink-0"
+          [class.border-brand-purple]="isDraggingCover"
+          [class.bg-brand-purple]="isDraggingCover"
+          [class.bg-opacity-10]="isDraggingCover"
+          [class.border-brand-border]="!isDraggingCover"
+          [class.bg-brand-bg]="!isDraggingCover"
+          (dragover)="onDragOverCover($event)"
+          (dragleave)="onDragLeaveCover($event)"
+          (drop)="onDropCover($event)"
+          (click)="triggerCoverInput(coverInput)"
+        >
+          <input
+            type="file"
+            #coverInput
+            class="hidden"
+            accept="image/*"
+            (change)="onFileSelectedCover($event)"
+          />
+
+          @if (facade.coverPreview) {
+            <img
+              [src]="facade.coverPreview"
+              alt="Cover Preview"
+              class="w-full h-full object-cover"
+            />
+            <div
+              class="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity"
+            >
+              <span class="text-white text-sm font-bold">Alterar Capa</span>
+            </div>
+          } @else {
+            <div class="text-center px-4">
+              <span class="block text-gray-400 text-sm font-medium pointer-events-none mb-1"
+                >Capa (4:5)</span
+              >
+
+              <span class="block text-gray-600 text-xs pointer-events-none">Card vertical</span>
+            </div>
+          }
+        </div>
       </div>
 
       <form [formGroup]="facade.form" (ngSubmit)="facade.submit()">
@@ -121,7 +170,7 @@
           formControlName="price"
           variant="card"
           label="Valor por Inscrição"
-          placeholder="R$ 80 ou Gratuito"
+          placeholder="R$ 80 ou 0 para gratuito"
         ></app-input>
 
         <div class="flex flex-col mb-8">

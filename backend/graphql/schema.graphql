@@ -23,6 +23,8 @@ type Event {
     price: String
     description: String
     banner: String
+    status: String!
+    cover: String
     user: User! @belongsTo
     created_at: String!
     updated_at: String!
@@ -31,6 +33,7 @@ type Event {
 type Query {
     me: User @guard(with: ["sanctum"]) @auth(guard: "sanctum")
     event(id: ID! @eq): Event @find
+    events: [Event!]! @all(orderBy: [{ column: "created_at", direction: DESC }])
 }
 
 type Mutation {
@@ -49,6 +52,7 @@ type Mutation {
         price: String
         description: String
         banner: Upload
+        cover: Upload
     ): Event!
         @field(resolver: "App\\GraphQL\\Mutations\\Event\\CreateEventMutation")
         @guard(with: ["sanctum"])
@@ -63,6 +67,8 @@ type Mutation {
         price: String
         description: String
         banner: Upload
+        cover: Upload
+        status: String
     ): Event!
         @field(resolver: "App\\GraphQL\\Mutations\\Event\\UpdateEventMutation")
         @guard(with: ["sanctum"])
