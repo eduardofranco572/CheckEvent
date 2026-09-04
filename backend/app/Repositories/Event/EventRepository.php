@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Repositories\Event;
 
 use App\Models\Event;
@@ -12,9 +13,11 @@ class EventRepository {
       'date' => $dto->date,
       'time' => $dto->time,
       'capacity' => $dto->capacity,
-      'location' => $dto->location,
+      'street' => $dto->street,
+      'city' => $dto->city,
       'price' => $dto->price,
       'description' => $dto->description,
+      'status' => 'aberto',
     ]);
   }
 

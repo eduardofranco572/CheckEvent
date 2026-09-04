@@ -1,0 +1,38 @@
+<form
+  [formGroup]="filterForm"
+  class="w-full bg-brand-surface border border-brand-border rounded-3xl p-6 flex flex-col lg:flex-row gap-4 shadow-lg mb-10 items-center"
+>
+  <div class="w-full flex-grow">
+    <app-input
+      formControlName="name"
+      variant="card"
+      placeholder="Nome do evento..."
+      class="[&>div]:mb-0"
+    ></app-input>
+  </div>
+
+  <div class="w-full lg:w-48">
+    <app-input
+      formControlName="city"
+      variant="card"
+      placeholder="Cidade..."
+      class="[&>div]:mb-0"
+    ></app-input>
+  </div>
+
+  <div class="w-full lg:w-48 relative">
+    <app-select
+      formControlName="price"
+      placeholder="Qualquer valor"
+      [options]="priceOptions"
+    ></app-select>
+  </div>
+
+  <div class="w-full lg:w-48 relative">
+    <app-select
+      formControlName="date"
+      placeholder="Qualquer data"
+      [options]="dateOptions"
+    ></app-select>
+  </div>
+</form>

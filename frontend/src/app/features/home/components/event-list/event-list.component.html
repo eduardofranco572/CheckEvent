@@ -1,0 +1,25 @@
+<div class="mt-16">
+  <h3 class="text-3xl font-bold text-white mb-6">Próximas celebrações</h3>
+
+  <app-event-filter (filterChanged)="onFilterChanged($event)"></app-event-filter>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+    @for (event of events; track event.id) {
+      <app-event-card [event]="event"></app-event-card>
+    }
+  </div>
+
+  @if (!loading && events.length === 0) {
+    <div class="w-full py-16 flex flex-col items-center justify-center mt-8">
+      <span class="text-gray-400 font-medium">Nenhum evento encontrado com esses filtros.</span>
+    </div>
+  }
+
+  @if (loading) {
+    <div class="text-center py-12">
+      <span
+        class="inline-block w-8 h-8 border-4 border-brand-purple border-t-brand-pink rounded-full animate-spin"
+      ></span>
+    </div>
+  }
+</div>

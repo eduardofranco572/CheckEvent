@@ -1,0 +1,58 @@
+<div
+  class="bg-brand-surface rounded-3xl overflow-hidden border border-brand-border hover:border-brand-purple transition-all duration-300 flex flex-col h-full cursor-pointer shadow-lg hover:shadow-brand-purple/20"
+>
+  <div class="relative h-56 w-full bg-brand-bg">
+    <img
+      *ngIf="event.cover; else noCover"
+      [src]="storageUrl + '/uploads/eventos/' + event.id + '/img/' + event.cover"
+      alt="Capa"
+      class="w-full h-full object-cover"
+    />
+
+    <ng-template #noCover>
+      <div
+        class="w-full h-full bg-brand-border flex items-center justify-center text-gray-500 text-sm"
+      >
+        Sem capa
+      </div>
+    </ng-template>
+
+    <div
+      class="absolute top-4 left-4 bg-brand-bg/90 backdrop-blur-md rounded-2xl p-2 flex flex-col items-center justify-center min-w-[3.5rem] shadow-lg border border-white/10"
+    >
+      <span class="text-brand-pink text-[0.55rem] font-bold uppercase tracking-wider">{{
+        event.date | date: 'MMM'
+      }}</span>
+      <span class="text-white text-xl font-bold leading-none mt-1">{{
+        event.date | date: 'dd'
+      }}</span>
+    </div>
+  </div>
+
+  <div class="p-6 flex flex-col flex-grow">
+    <span class="text-brand-pink text-[0.65rem] font-bold uppercase tracking-widest mb-3 block">
+      Celebração
+    </span>
+
+    <h3 class="text-xl font-bold text-white mb-2 line-clamp-2">{{ event.name }}</h3>
+    <p class="text-gray-400 text-sm line-clamp-2 flex-grow">
+      {{ event.description || 'Nenhuma descrição fornecida.' }}
+    </p>
+
+    <div class="flex items-center justify-between mt-6 pt-4 border-t border-brand-border">
+      <span class="text-gray-300 text-xs font-medium flex items-center">
+        {{ event.time | slice: 0 : 5 }}
+        <span class="text-brand-purple mx-2">&bull;</span>
+        <span class="truncate max-w-[6rem]">{{ event.city }}</span>
+      </span>
+
+      <span class="text-brand-pink font-bold text-sm">
+        {{
+          !event.price || event.price === '0' || event.price === '0.00'
+            ? 'Gratuito'
+            : 'R$ ' + event.price
+        }}
+      </span>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,49 @@
+<div class="relative w-full text-sm">
+  <div
+    (click)="toggle()"
+    class="w-full bg-brand-bg border hover:border-brand-pink rounded-xl pl-5 pr-10 py-3.5 outline-none transition-all flex justify-between items-center cursor-pointer relative z-40"
+    [class.border-brand-pink]="isOpen"
+    [class.border-transparent]="!isOpen"
+    [class.opacity-50]="disabled"
+  >
+    <span class="truncate block" [class.text-gray-400]="!value" [class.text-white]="value">
+      {{ selectedLabel || placeholder }}
+    </span>
+
+    <div
+      class="absolute inset-y-0 right-0 flex items-center pr-4 pointer-events-none text-gray-400"
+    >
+      <svg
+        class="w-4 h-4 transition-transform duration-300"
+        [class.rotate-180]="isOpen"
+        fill="none"
+        stroke="currentColor"
+        viewBox="0 0 24 24"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M19 9l-7 7-7-7"
+        ></path>
+      </svg>
+    </div>
+  </div>
+
+  @if (isOpen) {
+    <div
+      class="absolute left-0 w-full mt-2 bg-brand-surface border border-brand-border rounded-xl shadow-2xl z-50 overflow-hidden py-2 animate-fade-in"
+    >
+      @for (opt of options; track opt.value) {
+        <div
+          (click)="selectOption(opt, $event)"
+          class="px-5 py-2.5 hover:bg-brand-purple/20 cursor-pointer text-white transition-colors"
+          [class.text-brand-pink]="opt.value === value"
+          [class.font-bold]="opt.value === value"
+        >
+          {{ opt.label }}
+        </div>
+      }
+    </div>
+  }
+</div>

@@ -19,7 +19,8 @@ type Event {
     date: String!
     time: String!
     capacity: Int!
-    location: String!
+    street: String!
+    city: String!
     price: String
     description: String
     banner: String
@@ -32,8 +33,19 @@ type Event {
 
 type Query {
     me: User @guard(with: ["sanctum"]) @auth(guard: "sanctum")
+
     event(id: ID! @eq): Event @find
-    events: [Event!]! @all(orderBy: [{ column: "created_at", direction: DESC }])
+
+    upcomingEvents(
+        name: String
+        city: String
+        price: String
+        date_filter: String
+    ): [Event!]!
+        @paginate(
+            defaultCount: 6
+            builder: "App\\GraphQL\\Queries\\UpcomingEventsQuery"
+        )
 }
 
 type Mutation {
@@ -48,7 +60,8 @@ type Mutation {
         date: String!
         time: String!
         capacity: Int!
-        location: String!
+        street: String!
+        city: String!
         price: String
         description: String
         banner: Upload
@@ -63,7 +76,8 @@ type Mutation {
         date: String
         time: String
         capacity: Int
-        location: String
+        street: String
+        city: String
         price: String
         description: String
         banner: Upload

@@ -4,11 +4,13 @@ export interface EventModel {
   date: string;
   time: string;
   capacity: number;
-  location: string;
+  street: string;
+  city: string;
   price?: string | null;
   description?: string | null;
   banner?: string | null;
   cover?: string | null;
+  status: string;
   user?: {
     id: string;
   };
@@ -19,7 +21,19 @@ export interface EventInput {
   date: string;
   time: string;
   capacity: string | number;
-  location: string;
+  street: string;
+  city: string;
   price?: string | null;
   description?: string | null;
+}
+
+export interface PaginatorInfo {
+  hasMorePages: boolean;
+  currentPage: number;
+  lastPage: number;
+}
+
+export interface PaginatedEventResponse {
+  data: EventModel[];
+  paginatorInfo: PaginatorInfo;
 }

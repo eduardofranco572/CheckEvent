@@ -26,7 +26,8 @@ export class CreateEventFacade {
     date: ['', Validators.required],
     time: ['', Validators.required],
     capacity: [null as any, [Validators.required, Validators.min(1)]],
-    location: ['', Validators.required],
+    street: ['', Validators.required],
+    city: ['', Validators.required],
     price: [''],
     description: [''],
     bannerFile: [null as File | null],
@@ -78,7 +79,8 @@ export class CreateEventFacade {
             date: event.date,
             time: event.time ? event.time.substring(0, 5) : '',
             capacity: event.capacity,
-            location: event.location,
+            street: event.street,
+            city: event.city,
             price: event.price,
             description: event.description,
           });
@@ -124,9 +126,13 @@ export class CreateEventFacade {
         this.toastService.success(
           `Evento ${this.isEditMode ? 'atualizado' : 'criado'} com sucesso!`,
         );
+
         this.router.navigate(['/']);
       },
-      error: () => this.toastService.error('Erro no servidor.'),
+
+      error: () => {
+        this.toastService.error('Erro no servidor.');
+      },
     });
   }
 
@@ -143,7 +149,9 @@ export class CreateEventFacade {
             this.toastService.error('Erro ao excluir evento.');
           }
         },
-        error: () => this.toastService.error('Erro no servidor ao excluir.'),
+        error: () => {
+          this.toastService.error('Erro no servidor ao excluir.');
+        },
       });
     }
   }

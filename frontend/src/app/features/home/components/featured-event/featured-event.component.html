@@ -29,6 +29,15 @@
 
       <span class="text-brand-purple text-xl leading-none mx-3">&bull;</span>
       <span>{{ event.capacity }} Vagas</span>
+
+      <span class="text-brand-purple text-xl leading-none mx-3">&bull;</span>
+      <span>
+        {{
+          !event.price || event.price === '0' || event.price === '0.00'
+            ? 'Gratuito'
+            : 'R$ ' + event.price
+        }}
+      </span>
     </div>
 
     <button

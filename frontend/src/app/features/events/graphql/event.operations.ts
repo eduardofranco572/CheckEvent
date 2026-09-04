@@ -1,19 +1,41 @@
 import { gql } from 'apollo-angular';
 
-export const GET_EVENTS_QUERY = gql`
-  query GetEvents {
-    events {
-      id
-      name
-      date
-      time
-      capacity
-      location
-      price
-      description
-      banner
-      cover
-      status
+export const GET_UPCOMING_EVENTS_QUERY = gql`
+  query GetUpcomingEvents(
+    $first: Int!
+    $page: Int
+    $name: String
+    $city: String
+    $price: String
+    $dateFilter: String
+  ) {
+    upcomingEvents(
+      first: $first
+      page: $page
+      name: $name
+      city: $city
+      price: $price
+      date_filter: $dateFilter
+    ) {
+      data {
+        id
+        name
+        date
+        time
+        capacity
+        street
+        city
+        price
+        description
+        banner
+        cover
+        status
+      }
+      paginatorInfo {
+        hasMorePages
+        currentPage
+        lastPage
+      }
     }
   }
 `;
@@ -26,7 +48,8 @@ export const GET_EVENT_BY_ID_QUERY = gql`
       date
       time
       capacity
-      location
+      street
+      city
       price
       description
       banner
@@ -45,18 +68,20 @@ export const CREATE_EVENT_MUTATION = `
     $date: String!, 
     $time: String!, 
     $capacity: Int!,
-    $location: String!, 
-    $price: String, 
+    $street: String!, 
+    $city: String!, $price: 
+    String, 
     $description: String,
     $banner: Upload, 
     $cover: Upload
   ) {
     createEvent(
-      name: $name,
+      name: $name, 
       date: $date, 
       time: $time, 
       capacity: $capacity,
-      location: $location, 
+      street: $street,
+      city: $city, 
       price: $price, 
       description: $description,
       banner: $banner, 
@@ -74,7 +99,8 @@ export const UPDATE_EVENT_MUTATION = `
     $date: String, 
     $time: String, 
     $capacity: Int,
-    $location: String, 
+    $street: String, 
+    $city: String, 
     $price: String, 
     $description: String,
     $banner: Upload, 
@@ -87,8 +113,9 @@ export const UPDATE_EVENT_MUTATION = `
       date: $date, 
       time: $time, 
       capacity: $capacity,
-      location: $location, 
-      price: $price,
+      street: $street, 
+      city: $city, 
+      price: $price, 
       description: $description,
       banner: $banner, 
       cover: $cover, 

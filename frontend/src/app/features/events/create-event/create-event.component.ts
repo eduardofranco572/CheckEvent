@@ -45,18 +45,27 @@ export class CreateEventComponent implements OnInit {
     e.preventDefault();
     this.isDragging = true;
   }
+
   onDragLeave(e: DragEvent) {
     e.preventDefault();
     this.isDragging = false;
   }
+
   onDrop(e: DragEvent) {
     e.preventDefault();
     this.isDragging = false;
-    if (e.dataTransfer?.files?.length) this.handleFile(e.dataTransfer.files[0], 'banner');
+
+    if (e.dataTransfer?.files?.length) {
+      this.handleFile(e.dataTransfer.files[0], 'banner');
+    }
   }
+
   onFileSelected(e: Event) {
     const input = e.target as HTMLInputElement;
-    if (input.files?.length) this.handleFile(input.files[0], 'banner');
+
+    if (input.files?.length) {
+      this.handleFile(input.files[0], 'banner');
+    }
   }
 
   // Capa
@@ -64,18 +73,26 @@ export class CreateEventComponent implements OnInit {
     e.preventDefault();
     this.isDraggingCover = true;
   }
+
   onDragLeaveCover(e: DragEvent) {
     e.preventDefault();
     this.isDraggingCover = false;
   }
+
   onDropCover(e: DragEvent) {
     e.preventDefault();
     this.isDraggingCover = false;
-    if (e.dataTransfer?.files?.length) this.handleFile(e.dataTransfer.files[0], 'cover');
+
+    if (e.dataTransfer?.files?.length) {
+      this.handleFile(e.dataTransfer.files[0], 'cover');
+    }
   }
+
   onFileSelectedCover(e: Event) {
     const input = e.target as HTMLInputElement;
-    if (input.files?.length) this.handleFile(input.files[0], 'cover');
+    if (input.files?.length) {
+      this.handleFile(input.files[0], 'cover');
+    }
   }
 
   triggerFileInput(fileInput: HTMLInputElement) {
@@ -98,7 +115,8 @@ export class CreateEventComponent implements OnInit {
           this.facade.form.patchValue({ coverFile: file });
           this.facade.coverPreview = reader.result;
         }
-        this.cdr.markForCheck(); // Atualiza a tela de forma segura
+
+        this.cdr.markForCheck();
       };
 
       reader.readAsDataURL(file);
