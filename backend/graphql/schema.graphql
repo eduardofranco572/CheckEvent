@@ -15,6 +15,7 @@ type User {
 
 type Event {
     id: ID!
+    public_id: String!
     name: String!
     date: String!
     time: String!
@@ -29,12 +30,16 @@ type Event {
     user: User! @belongsTo
     created_at: String!
     updated_at: String!
+
+    # Novos campos de inscrição
+    subscribers_count: Int! @count(relation: "subscribers")
+    is_subscribed: Boolean! @method(name: "getIsSubscribedAttribute")
 }
 
 type Query {
     me: User @guard(with: ["sanctum"]) @auth(guard: "sanctum")
 
-    event(id: ID! @eq): Event @find
+    event(public_id: String! @eq): Event @find
 
     upcomingEvents(
         name: String
@@ -90,4 +95,8 @@ type Mutation {
     deleteEvent(id: ID!): Boolean!
         @field(resolver: "App\\GraphQL\\Mutations\\Event\\DeleteEventMutation")
         @guard(with: ["sanctum"])
+
+    subscribeToEvent(event_id: ID!): Boolean!
+        @guard(with: ["sanctum"])
+        @field(resolver: "App\\GraphQL\\Mutations\\Event\\SubscribeToEvent")
 }

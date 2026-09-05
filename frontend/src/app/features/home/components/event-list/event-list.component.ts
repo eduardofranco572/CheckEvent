@@ -56,6 +56,7 @@ export class EventListComponent implements OnInit {
           this.hasMore = response.paginatorInfo.hasMorePages;
           this.page++;
         }
+
         this.loading = false;
         this.cdr.detectChanges();
       },

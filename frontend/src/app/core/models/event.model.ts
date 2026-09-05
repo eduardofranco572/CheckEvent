@@ -14,6 +14,9 @@ export interface EventModel {
   user?: {
     id: string;
   };
+
+  subscribers_count?: number;
+  is_subscribed?: boolean;
 }
 
 export interface EventInput {

@@ -7,21 +7,32 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Event extends Model {
   protected $fillable = [
-    'user_id', 
     'name', 
     'date', 
     'time', 
     'capacity', 
-    'street',
-    'city',
+    'street', 
+    'city', 
     'price', 
     'description', 
     'banner', 
-    'cover',
-    'status'
+    'cover', 
+    'status',
+    'public_id', 
+    'user_id' 
   ];
 
   public function user(): BelongsTo {
     return $this->belongsTo(User::class);
+  }
+
+  public function subscribers() {
+    return $this->belongsToMany(User::class, 'event_user')->withTimestamps();
+  }
+
+  public function getIsSubscribedAttribute(): bool {
+    if (!auth('sanctum')->check()) return false;
+    
+    return $this->subscribers()->where('user_id', auth('sanctum')->id())->exists();
   }
 }

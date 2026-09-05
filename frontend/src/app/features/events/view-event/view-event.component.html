@@ -1,0 +1,142 @@
+<app-menu></app-menu>
+
+@if (event()) {
+  <div class="min-h-screen bg-brand-bg relative pb-20 font-sans">
+    <div class="max-w-5xl mx-auto px-6 pt-24 md:pt-32 relative z-10 animate-fade-in">
+      <div
+        class="relative w-full rounded-[2rem] overflow-hidden border border-brand-border shadow-2xl bg-brand-surface"
+      >
+        <div class="absolute inset-0 z-0">
+          @if (event()?.banner) {
+            <img
+              [src]="storageUrl + '/uploads/eventos/' + event()?.id + '/img/' + event()?.banner"
+              class="w-full h-full object-cover opacity-60"
+            />
+          }
+          <div
+            class="absolute inset-0 bg-gradient-to-r from-brand-surface via-brand-surface/60 to-transparent"
+          ></div>
+        </div>
+
+        <div
+          class="relative z-10 p-8 md:p-10 flex flex-col md:flex-row items-center md:items-end gap-8"
+        >
+          <div
+            class="w-48 h-64 md:w-56 md:h-72 shrink-0 bg-brand-bg rounded-2xl border border-brand-border shadow-2xl overflow-hidden relative"
+          >
+            @if (event()?.cover) {
+              <img
+                [src]="storageUrl + '/uploads/eventos/' + event()?.id + '/img/' + event()?.cover"
+                alt="Capa"
+                class="w-full h-full object-cover"
+              />
+            } @else {
+              <div class="w-full h-full flex items-center justify-center text-gray-500 text-sm">
+                Sem Capa
+              </div>
+            }
+          </div>
+
+          <div class="flex-1 text-center md:text-left pb-2">
+            <span
+              class="text-brand-pink text-xs font-bold uppercase tracking-widest mb-3 block drop-shadow-md"
+            >
+              {{ event()?.date | date: "dd 'de' MMMM" }} &middot;
+              {{ event()?.time?.substring(0, 5) }}
+            </span>
+
+            <h1 class="text-3xl md:text-4xl font-bold text-white mb-6 leading-tight drop-shadow-lg">
+              {{ event()?.name }}
+            </h1>
+
+            <div
+              class="flex flex-wrap items-center justify-center md:justify-start text-gray-300 text-sm gap-6 drop-shadow-md"
+            >
+              <span class="flex items-center gap-2 font-medium">
+                <lucide-icon name="map-pin" class="w-4 h-4 text-brand-purple"></lucide-icon>
+                {{ event()?.street }}, {{ event()?.city }}
+              </span>
+
+              <span class="flex items-center gap-2 font-medium">
+                <lucide-icon name="users" class="w-4 h-4 text-brand-purple"></lucide-icon>
+                {{ event()?.subscribers_count || 0 }} / {{ event()?.capacity }} Vagas
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 mt-8">
+        <div
+          class="lg:col-span-2 bg-brand-surface/60 backdrop-blur-xl border border-brand-border rounded-[2rem] p-8 shadow-xl flex flex-col"
+        >
+          <h2 class="text-white font-bold text-xs uppercase tracking-widest mb-6">
+            Sobre o evento
+          </h2>
+
+          <p
+            class="text-gray-300 whitespace-pre-line leading-relaxed text-sm md:text-base flex-grow"
+          >
+            {{ event()?.description || 'Nenhuma descrição detalhada fornecida.' }}
+          </p>
+
+          <div
+            class="flex flex-wrap md:flex-nowrap gap-12 mt-10 pt-6 border-t border-brand-border/50"
+          >
+            <div class="shrink-0">
+              <span
+                class="block text-[0.65rem] font-bold text-gray-500 uppercase tracking-widest mb-1"
+                >Quando</span
+              >
+              <span class="text-white text-sm font-bold">
+                {{ event()?.date | date: 'dd/MM' }} &middot; {{ event()?.time?.substring(0, 5) }}
+              </span>
+            </div>
+
+            <div class="shrink-0 max-w-[15.6rem]">
+              <span
+                class="block text-[0.65rem] font-bold text-gray-500 uppercase tracking-widest mb-1"
+                >Onde</span
+              >
+
+              <span
+                class="text-white text-sm font-bold block truncate"
+                [title]="event()?.street + ', ' + event()?.city"
+              >
+                {{ event()?.street }}, {{ event()?.city }}
+              </span>
+            </div>
+
+            <div class="shrink-0 md:ml-auto">
+              <span
+                class="block text-[0.65rem] font-bold text-gray-500 uppercase tracking-widest mb-1"
+                >Investimento</span
+              >
+
+              <span class="text-white text-sm font-bold">
+                {{
+                  !event()?.price || event()?.price === '0' || event()?.price === '0.00'
+                    ? 'Gratuito'
+                    : 'R$ ' + event()?.price
+                }}
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <app-event-subscribe
+          [event]="event()!"
+          [isLoading]="isLoading()"
+          (subscribeClick)="subscribe()"
+        >
+        </app-event-subscribe>
+      </div>
+    </div>
+  </div>
+} @else {
+  <div class="min-h-screen bg-brand-bg flex items-center justify-center">
+    <span
+      class="w-10 h-10 border-4 border-brand-purple border-t-brand-pink rounded-full animate-spin"
+    ></span>
+  </div>
+}

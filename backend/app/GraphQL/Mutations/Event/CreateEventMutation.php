@@ -22,7 +22,7 @@ final class CreateEventMutation {
         price: $args['price'] ?? null,
         description: $args['description'] ?? null,
         banner: $args['banner'] ?? null,
-        cover: $args['cover'] ?? null
+        cover: $args['cover'] ?? null,
       );
 
     return $this->eventService->createEvent($dto);

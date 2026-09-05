@@ -41,9 +41,10 @@ export const GET_UPCOMING_EVENTS_QUERY = gql`
 `;
 
 export const GET_EVENT_BY_ID_QUERY = gql`
-  query GetEvent($id: ID!) {
-    event(id: $id) {
+  query GetEvent($public_id: String!) {
+    event(public_id: $public_id) {
       id
+      public_id
       name
       date
       time
@@ -55,10 +56,15 @@ export const GET_EVENT_BY_ID_QUERY = gql`
       banner
       cover
       status
-      user {
-        id
-      }
+      subscribers_count
+      is_subscribed
     }
+  }
+`;
+
+export const SUBSCRIBE_EVENT_MUTATION = gql`
+  mutation SubscribeToEvent($eventId: ID!) {
+    subscribeToEvent(event_id: $eventId)
   }
 `;
 

@@ -13,7 +13,7 @@ import { HttpLink } from 'apollo-angular/http';
 import { InMemoryCache, ApolloLink } from '@apollo/client/core';
 import { setContext } from '@apollo/client/link/context';
 import { authInterceptor } from './core/interceptors/auth-interceptor';
-import { LucideAngularModule, Eye, EyeOff } from 'lucide-angular';
+import { LucideAngularModule, Eye, EyeOff, MapPin, Users } from 'lucide-angular';
 import { environment } from '../environments/environment';
 import { FlatpickrModule } from 'angularx-flatpickr';
 import { LOCALE_ID } from '@angular/core';
@@ -28,7 +28,15 @@ export const appConfig: ApplicationConfig = {
     provideRouter(routes),
     provideClientHydration(withEventReplay()),
     provideHttpClient(withFetch(), withInterceptors([authInterceptor])),
-    importProvidersFrom(LucideAngularModule.pick({ Eye, EyeOff }), FlatpickrModule.forRoot()),
+    importProvidersFrom(
+      LucideAngularModule.pick({
+        Eye,
+        EyeOff,
+        MapPin,
+        Users,
+      }),
+      FlatpickrModule.forRoot(),
+    ),
     provideApollo(() => {
       const httpLink = inject(HttpLink);
 

@@ -46,8 +46,16 @@ export const routes: Routes = [
             (m) => m.CreateEventComponent,
           ),
       },
+      {
+        path: 'evento/:id',
+        loadComponent: () =>
+          import('./features/events/view-event/view-event.component').then(
+            (m) => m.ViewEventComponent,
+          ),
+      },
     ],
   },
+
   {
     path: '404',
     loadComponent: () =>

@@ -9,6 +9,7 @@ import {
   CREATE_EVENT_MUTATION,
   UPDATE_EVENT_MUTATION,
   DELETE_EVENT_MUTATION,
+  SUBSCRIBE_EVENT_MUTATION,
 } from './graphql/event.operations';
 
 import { environment } from '../../../environments/environment';
@@ -31,11 +32,11 @@ export class EventService {
       .pipe(map((res) => res.data?.upcomingEvents?.data[0] || null));
   }
 
-  getEventById(id: string): Observable<EventModel | null> {
+  getEventById(public_id: string): Observable<EventModel | null> {
     return this.apollo
       .query<{ event: EventModel }>({
         query: GET_EVENT_BY_ID_QUERY,
-        variables: { id },
+        variables: { public_id },
         fetchPolicy: 'network-only',
       })
       .pipe(map((res) => res.data?.event || null));
@@ -144,5 +145,14 @@ export class EventService {
         variables: { id },
       })
       .pipe(map((res) => res.data?.deleteEvent || false));
+  }
+
+  subscribeToEvent(eventId: string): Observable<boolean> {
+    return this.apollo
+      .mutate<{ subscribeToEvent: boolean }>({
+        mutation: SUBSCRIBE_EVENT_MUTATION,
+        variables: { eventId },
+      })
+      .pipe(map((res) => res.data?.subscribeToEvent || false));
   }
 }

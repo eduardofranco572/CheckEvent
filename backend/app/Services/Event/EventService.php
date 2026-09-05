@@ -1,17 +1,22 @@
 <?php
+
 namespace App\Services\Event;
 
 use App\DTOs\Event\CreateEventDTO;
+use App\DTOs\Event\SubscribeEventDTO;
 use App\Models\Event;
 use App\Actions\Event\CreateEventAction;
 use App\Actions\Event\UpdateEventAction;
 use App\Actions\Event\DeleteEventAction;
+use App\Actions\Event\SubscribeEventAction;
 
-class EventService {
+class EventService
+{
     public function __construct(
       private CreateEventAction $createEventAction,
       private UpdateEventAction $updateEventAction,
-      private DeleteEventAction $deleteEventAction
+      private DeleteEventAction $deleteEventAction,
+      private SubscribeEventAction $subscribeEventAction
     ) {}
 
     public function createEvent(CreateEventDTO $dto): Event {
@@ -24,5 +29,9 @@ class EventService {
 
     public function deleteEvent(int $id): bool {
       return $this->deleteEventAction->execute($id);
+    }
+
+    public function subscribeToEvent(SubscribeEventDTO $dto): bool {
+      return $this->subscribeEventAction->execute($dto);
     }
 }

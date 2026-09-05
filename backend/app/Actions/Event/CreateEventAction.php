@@ -13,7 +13,22 @@ class CreateEventAction {
   ) {}
 
   public function execute(CreateEventDTO $dto): Event {
-    $event = $this->eventRepository->create($dto);
+    $eventData = [
+      'user_id' => $dto->userId,
+      'public_id' => Str::random(12),
+      'name' => $dto->name,
+      'date' => $dto->date,
+      'time' => $dto->time,
+      'capacity' => $dto->capacity,
+      'street' => $dto->street,
+      'city' => $dto->city,
+      'price' => $dto->price,
+      'description' => $dto->description,
+      'status' => 'aberto'
+    ];
+
+    $event = $this->eventRepository->create($eventData);
+    
     $path = "uploads/eventos/{$event->id}/img";
     
     if ($dto->banner) {

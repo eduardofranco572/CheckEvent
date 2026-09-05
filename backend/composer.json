@@ -10,7 +10,9 @@
         "laravel/framework": "^12.0",
         "laravel/sanctum": "^4.0",
         "laravel/tinker": "^2.10.1",
-        "nuwave/lighthouse": "^6.69"
+        "nuwave/lighthouse": "^6.69",
+        "predis/predis": "^3.6",
+        "vladimir-yuldashev/laravel-queue-rabbitmq": "^15.0"
     },
     "require-dev": {
         "fakerphp/faker": "^1.23",
