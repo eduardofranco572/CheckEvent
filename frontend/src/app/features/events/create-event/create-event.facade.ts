@@ -1,7 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { EventService } from '../event.service';
+import { CreateEventService } from './create-event.service';
 import { UserService } from '../../../core/services/user.service';
 import { ToastService } from '../../../shared/services/toast.service';
 import { Observable, tap } from 'rxjs';
@@ -11,7 +11,7 @@ import { environment } from '../../../../environments/environment';
 @Injectable()
 export class CreateEventFacade {
   private fb = inject(FormBuilder);
-  private eventService = inject(EventService);
+  private eventService = inject(CreateEventService);
   private userService = inject(UserService);
   private toastService = inject(ToastService);
   private router = inject(Router);
@@ -57,16 +57,17 @@ export class CreateEventFacade {
     });
   }
 
-  loadEventData(id: string): Observable<EventModel | null> {
-    this.eventId = id;
+  loadEventData(publicId: string): Observable<EventModel | null> {
     this.isEditMode = true;
 
-    return this.eventService.getEventById(id).pipe(
+    return this.eventService.getEventById(publicId).pipe(
       tap((event) => {
         if (!event) {
           this.router.navigate(['/404']);
           return;
         }
+
+        this.eventId = event.id;
 
         this.userService.fetchMe().subscribe((user) => {
           if (!user || String(event.user?.id) !== String(user.id)) {

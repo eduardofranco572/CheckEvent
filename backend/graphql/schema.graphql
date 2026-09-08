@@ -31,7 +31,6 @@ type Event {
     created_at: String!
     updated_at: String!
 
-    # Novos campos de inscrição
     subscribers_count: Int! @count(relation: "subscribers")
     is_subscribed: Boolean! @method(name: "getIsSubscribedAttribute")
 }
@@ -51,6 +50,12 @@ type Query {
             defaultCount: 6
             builder: "App\\GraphQL\\Queries\\UpcomingEventsQuery"
         )
+}
+
+extend type Query {
+    mySubscribedEvents: [Event!]!
+        @paginate(builder: "App\\GraphQL\\Queries\\MySubscribedEvents")
+        @guard(with: ["sanctum"])
 }
 
 type Mutation {

@@ -53,6 +53,13 @@ export const routes: Routes = [
             (m) => m.ViewEventComponent,
           ),
       },
+      {
+        path: 'meus-eventos',
+        loadComponent: () =>
+          import('./features/events/my-events/my-events.component').then(
+            (m) => m.MyEventsComponent,
+          ),
+      },
     ],
   },
 

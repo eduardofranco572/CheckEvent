@@ -13,7 +13,7 @@ import { HttpLink } from 'apollo-angular/http';
 import { InMemoryCache, ApolloLink } from '@apollo/client/core';
 import { setContext } from '@apollo/client/link/context';
 import { authInterceptor } from './core/interceptors/auth-interceptor';
-import { LucideAngularModule, Eye, EyeOff, MapPin, Users } from 'lucide-angular';
+import { LucideAngularModule, Eye, EyeOff, MapPin, Users, Pencil } from 'lucide-angular';
 import { environment } from '../environments/environment';
 import { FlatpickrModule } from 'angularx-flatpickr';
 import { LOCALE_ID } from '@angular/core';
@@ -34,6 +34,7 @@ export const appConfig: ApplicationConfig = {
         EyeOff,
         MapPin,
         Users,
+        Pencil,
       }),
       FlatpickrModule.forRoot(),
     ),

@@ -32,4 +32,12 @@ class EventRepository {
       $event->subscribers()->attach($userId);
     });
   }
+
+  public function getSubscribedEventsByUser(int $userId){
+    return Event::whereHas('subscribers', function ($query) use ($userId) {
+      $query->where('user_id', $userId);
+    })
+    ->orderBy('date', 'desc')
+    ->orderBy('time', 'desc');
+  }
 }

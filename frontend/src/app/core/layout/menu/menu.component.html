@@ -36,11 +36,13 @@
     >
   </div>
 
-  <div class="flex items-center gap-4">
-    <div
-      class="w-10 h-10 rounded-full bg-brand-surface border border-brand-border flex items-center justify-center text-sm font-bold text-white cursor-pointer hover:border-brand-pink transition-colors"
-    >
+  <div
+    class="w-10 h-10 rounded-full bg-brand-surface border border-brand-border flex items-center justify-center text-sm font-bold text-white overflow-hidden hover:border-brand-pink transition-colors cursor-pointer"
+  >
+    @if (initials() === '--') {
+      <div class="w-full h-full bg-brand-border/60 animate-pulse"></div>
+    } @else {
       {{ initials() }}
-    </div>
+    }
   </div>
 </nav>

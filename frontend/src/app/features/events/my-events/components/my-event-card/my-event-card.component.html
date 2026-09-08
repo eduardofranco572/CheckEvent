@@ -1,0 +1,37 @@
+<div
+  [routerLink]="['/evento', event.public_id]"
+  class="bg-brand-surface border border-brand-border rounded-[2rem] p-5 flex items-center gap-6 hover:border-brand-purple transition-colors cursor-pointer shadow-lg"
+>
+  <div
+    class="w-24 h-24 rounded-2xl overflow-hidden shrink-0 bg-brand-bg relative border border-white/5"
+  >
+    @if (event.cover) {
+      <img
+        [src]="storageUrl + '/uploads/eventos/' + event.id + '/img/' + event.cover"
+        alt="Capa"
+        class="w-full h-full object-cover"
+      />
+    } @else {
+      <div
+        class="w-full h-full flex items-center justify-center text-gray-500 text-xs text-center p-2"
+      >
+        Sem capa
+      </div>
+    }
+  </div>
+
+  <div class="flex-1 min-w-0">
+    <h3 class="text-xl font-bold text-white truncate mb-2">{{ event.name }}</h3>
+
+    <p class="text-gray-400 text-sm truncate">
+      {{ event.date | date: "dd 'de' MMMM" }} &middot; {{ event.time | slice: 0 : 5 }} &middot;
+      {{ event.street || event.city }}
+    </p>
+  </div>
+
+  <div class="shrink-0 px-4">
+    <span class="px-4 py-2 rounded-full text-xs font-bold border" [class]="statusConfig.classes">
+      {{ statusConfig.label }}
+    </span>
+  </div>
+</div>

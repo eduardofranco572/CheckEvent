@@ -1,6 +1,6 @@
 import { Component, OnInit, inject, signal } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { EventService } from '../event.service';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { ViewEventService } from './view-event.service';
 import { EventModel } from '../../../core/models/event.model';
 import { environment } from '../../../../environments/environment';
 import { MenuComponent } from '../../../core/layout/menu/menu.component';
@@ -8,17 +8,22 @@ import { ToastService } from '../../../shared/services/toast.service';
 import { DatePipe } from '@angular/common';
 import { LucideAngularModule } from 'lucide-angular';
 import { EventSubscribeComponent } from './components/event-subscribe/event-subscribe.component';
+import { UserService } from '../../../core/services/user.service';
+import { User } from '../../../core/models/user.model';
 
 @Component({
   selector: 'app-view-event',
   standalone: true,
-  imports: [MenuComponent, DatePipe, LucideAngularModule, EventSubscribeComponent],
+  imports: [MenuComponent, DatePipe, LucideAngularModule, EventSubscribeComponent, RouterLink],
   templateUrl: './view-event.component.html',
 })
 export class ViewEventComponent implements OnInit {
+  private userService = inject(UserService);
+  currentUser = signal<User | null>(null);
+
   private route = inject(ActivatedRoute);
   private router = inject(Router);
-  private eventService = inject(EventService);
+  private eventService = inject(ViewEventService);
   private toastService = inject(ToastService);
 
   event = signal<EventModel | null>(null);
@@ -26,7 +31,10 @@ export class ViewEventComponent implements OnInit {
   isLoading = signal(false);
 
   ngOnInit() {
+    this.userService.getMe().subscribe((user) => this.currentUser.set(user));
+
     const publicId = this.route.snapshot.paramMap.get('id');
+
     if (!publicId) {
       this.router.navigate(['/404']);
       return;

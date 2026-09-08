@@ -1,5 +1,6 @@
 export interface EventModel {
   id: string;
+  public_id?: string;
   name: string;
   date: string;
   time: string;
@@ -34,6 +35,7 @@ export interface PaginatorInfo {
   hasMorePages: boolean;
   currentPage: number;
   lastPage: number;
+  total: number;
 }
 
 export interface PaginatedEventResponse {
